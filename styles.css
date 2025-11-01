@@ -1,8 +1,180 @@
-/*
+.simple-time-tracker-container {
+    overflow-x: scroll;
+}
 
-This CSS file will be included with your plugin, and
-available in the app when your plugin is enabled.
+.simple-time-tracker-settings-image {
+    width: 100%;
+    height: auto;
+}
 
-If your plugin does not need CSS, delete this file.
+.simple-time-tracker-btn,
+.simple-time-tracker-txt {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
 
-*/
+.simple-time-tracker-txt {
+    text-align: center;
+}
+
+.simple-time-tracker-btn {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.simple-time-tracker-btn svg {
+    width: 32px;
+    height: 32px;
+}
+
+.simple-time-tracker-bottom button {
+    margin: 10px 5px 10px 5px;
+}
+
+.simple-time-tracker-timers,
+.simple-time-tracker-bottom {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+
+.simple-time-tracker-timers span {
+    display: block;
+}
+
+.simple-time-tracker-timer {
+    margin: 20px;
+}
+
+.simple-time-tracker-timer-time {
+    font-size: xx-large;
+    font-weight: bolder;
+}
+
+.simple-time-tracker-table {
+    width: 100%;
+    margin-top: 5px;
+}
+
+.simple-time-tracker-table td,
+.simple-time-tracker-table th {
+    vertical-align: middle;
+    border: none;
+}
+
+.simple-time-tracker-table .clickable-icon {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.simple-time-tracker-expand-button {
+    margin-inline-start: 0.5em;
+}
+
+.simple-time-tracker-input {
+    max-width: 150px;
+    min-width: 100px;
+}
+
+.simple-time-tracker-table-buttons {
+    text-align: right !important;
+}
+
+.simple-time-tracker-table tr:hover {
+    background-color: var(--background-modifier-hover);
+}
+
+.simple-time-tracker-progress-container {
+    margin: 10px 0;
+}
+
+.simple-time-tracker-progress-container-inline {
+    padding: 8px 10px;
+}
+
+.simple-time-tracker-progress-row {
+    background-color: var(--background-secondary);
+}
+
+.simple-time-tracker-progress-row:hover {
+    background-color: var(--background-secondary) !important;
+}
+
+.simple-time-tracker-progress-row td {
+    padding: 0 !important;
+    border: none !important;
+}
+
+.simple-time-tracker-progress-bar {
+    width: 100%;
+    height: 20px;
+    background-color: var(--background-modifier-border);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 5px;
+}
+
+.simple-time-tracker-progress-fill {
+    height: 100%;
+    background-color: var(--interactive-accent);
+    transition: width 0.3s ease;
+    width: 0%;
+}
+
+.simple-time-tracker-progress-running {
+    background: linear-gradient(90deg, #ff0000, #ff6666, #ff0000);
+    background-size: 200% 100%;
+    animation: progressPulse 3s ease-in-out infinite;
+}
+
+@keyframes progressPulse {
+    0%, 100% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+.simple-time-tracker-progress-text {
+    text-align: center;
+    font-size: 0.9em;
+    color: var(--text-muted);
+}
+
+.simple-time-tracker-progress-text-running {
+    color: #ff0000;
+    font-weight: bold;
+}
+
+.simple-time-tracker-running {
+    background-color: rgba(255, 0, 0, 0.05) !important;
+    border-left: 3px solid #ff0000;
+}
+
+.simple-time-tracker-running:hover {
+    background-color: rgba(255, 0, 0, 0.1) !important;
+}
+
+.simple-time-tracker-duration-running {
+    color: #ff0000;
+    font-weight: bold;
+}
+
+.simple-time-tracker-running-indicator {
+    color: #ff0000;
+    font-weight: bold;
+    font-size: 0.85em;
+    margin-left: 8px;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}

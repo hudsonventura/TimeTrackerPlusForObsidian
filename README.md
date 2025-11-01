@@ -1,94 +1,260 @@
-# Obsidian Sample Plugin
+# Time Tracker Plus for Obsidian
 
-This is a sample plugin for Obsidian (https://obsidian.md).
+A clean, minimalist time tracking plugin for Obsidian that helps you track time spent on tasks with a simple, table-based interface.  
 
-This project uses TypeScript to provide type checking and documentation.
-The repo depends on the latest plugin API (obsidian.d.ts) in TypeScript Definition format, which contains TSDoc comments describing what it does.
+It was inspired on https://github.com/Ellpeck/ObsidianSimpleTimeTracker  
 
-This sample plugin demonstrates some of the basic functionality the plugin API can do.
-- Adds a ribbon icon, which shows a Notice when clicked.
-- Adds a command "Open Sample Modal" which opens a Modal.
-- Adds a plugin setting tab to the settings page.
-- Registers a global click event and output 'click' to the console.
-- Registers a global interval which logs 'setInterval' to the console.
 
-## First time developing plugins?
+## Features
 
-Quick starting guide for new plugin devs:
+- ⏱️ **Simple time tracking** - Start and stop timers with one click
+- 🎯 **Target time goals** - Set time goals and track progress with a visual progress bar
+- 📊 **Real-time updates** - See durations update live as timers run
+- 🔴 **Visual indicators** - Clear red indicators show when timers are active
+- 🗂️ **Multiple segments** - Track multiple tasks in one tracker
+- ✏️ **Editable entries** - Edit segment names and timestamps
 
-- Check if [someone already developed a plugin for what you want](https://obsidian.md/plugins)! There might be an existing plugin similar enough that you can partner up with.
-- Make a copy of this repo as a template with the "Use this template" button (login to GitHub if you don't see it).
-- Clone your repo to a local development folder. For convenience, you can place this folder in your `.obsidian/plugins/your-plugin-name` folder.
-- Install NodeJS, then run `npm i` in the command line under your repo folder.
-- Run `npm run dev` to compile your plugin from `main.ts` to `main.js`.
-- Make changes to `main.ts` (or create new `.ts` files). Those changes should be automatically compiled into `main.js`.
-- Reload Obsidian to load the new version of your plugin.
-- Enable plugin in settings window.
-- For updates to the Obsidian API run `npm update` in the command line under your repo folder.
 
-## Releasing new releases
 
-- Update your `manifest.json` with your new version number, such as `1.0.1`, and the minimum Obsidian version required for your latest release.
-- Update your `versions.json` file with `"new-plugin-version": "minimum-obsidian-version"` so older versions of Obsidian can download an older version of your plugin that's compatible.
-- Create new GitHub release using your new version number as the "Tag version". Use the exact version number, don't include a prefix `v`. See here for an example: https://github.com/obsidianmd/obsidian-sample-plugin/releases
-- Upload the files `manifest.json`, `main.js`, `styles.css` as binary attachments. Note: The manifest.json file must be in two places, first the root path of your repository and also in the release.
-- Publish the release.
 
-> You can simplify the version bump process by running `npm version patch`, `npm version minor` or `npm version major` after updating `minAppVersion` manually in `manifest.json`.
-> The command will bump version in `manifest.json` and `package.json`, and add the entry for the new version to `versions.json`
+## Quick Start
 
-## Adding your plugin to the community plugin list
+### Creating a Time Tracker
 
-- Check the [plugin guidelines](https://docs.obsidian.md/Plugins/Releasing/Plugin+guidelines).
-- Publish an initial version.
-- Make sure you have a `README.md` file in the root of your repo.
-- Make a pull request at https://github.com/obsidianmd/obsidian-releases to add your plugin.
+1. Open the command palette (`Ctrl/Cmd + P`)
+2. Search for **"Insert Time Tracker"**
+3. Enter a target time (optional) - e.g., `2h`, `30m`, `1h30m`
+4. Press Enter
 
-## How to use
+![Insert Time Tracker]()
+*GIF placeholder: Showing the Insert Time Tracker command and modal*
 
-- Clone this repo.
-- Make sure your NodeJS is at least v16 (`node --version`).
-- `npm i` or `yarn` to install dependencies.
-- `npm run dev` to start compilation in watch mode.
+An empty tracker will be inserted in your note:
 
-## Manually installing the plugin
-
-- Copy over `main.js`, `styles.css`, `manifest.json` to your vault `VaultFolder/.obsidian/plugins/your-plugin-id/`.
-
-## Improve code quality with eslint (optional)
-- [ESLint](https://eslint.org/) is a tool that analyzes your code to quickly find problems. You can run ESLint against your plugin to find common bugs and ways to improve your code. 
-- To use eslint with this project, make sure to install eslint from terminal:
-  - `npm install -g eslint`
-- To use eslint to analyze this project use this command:
-  - `eslint main.ts`
-  - eslint will then create a report with suggestions for code improvement by file and line number.
-- If your source code is in a folder, such as `src`, you can use eslint with this command to analyze all files in that folder:
-  - `eslint ./src/`
-
-## Funding URL
-
-You can include funding URLs where people who use your plugin can financially support it.
-
-The simple way is to set the `fundingUrl` field to your link in your `manifest.json` file:
-
-```json
-{
-    "fundingUrl": "https://buymeacoffee.com"
-}
+```markdown
+```simple-time-tracker
+{"entries":[],"targetTime":"2h"}
+```
 ```
 
-If you have multiple URLs, you can also do:
+### Starting Your First Timer
+
+When you have an empty tracker, click the **Play button** (▶️) to start your first segment.
+
+![Starting a timer]()
+*GIF placeholder: Clicking the play button to start the first segment*
+
+### Tracking Time
+
+Once a timer is running, you'll see:
+- 🔴 **Red background** on the active row
+- 🔴 **Bold red duration** counting up in real-time
+- 🔴 **"● RUNNING" indicator** next to the segment name
+- 🔴 **Animated progress bar** (if target time is set)
+
+![Running timer indicators]()
+*GIF placeholder: Showing all the red visual indicators on a running timer*
+
+## Usage Guide
+
+### Segment Controls
+
+Each segment has control buttons on the right:
+
+| Button | Action | Description |
+|--------|--------|-------------|
+| ▶️ **Play** | Continue | Creates a new sub-entry to continue tracking this segment |
+| ⏹️ **Stop** | Stop | Stops the currently running timer in this segment |
+| ✏️ **Edit** | Edit | Edit segment name, start time, and end time |
+| 🗑️ **Delete** | Remove | Delete this segment (with confirmation) |
+
+![Segment controls]()
+*GIF placeholder: Demonstrating each button action*
+
+### Editing Segments
+
+1. Click the **Edit button** (✏️) or **double-click** the segment name
+2. Modify the segment name, start time, or end time
+3. Click the **checkmark** or press **Enter** to save
+4. Press **Escape** to cancel
+
+![Editing a segment]()
+*GIF placeholder: Editing a segment name and timestamps*
+
+### Target Time & Progress Bar
+
+When you set a `targetTime`, a progress bar appears inside the table showing:
+- Current time vs. target time
+- Progress percentage
+- Visual progress bar that fills as you work
+- Red animated bar when timer is running
+
+**Target time format:**
+- `30s` - 30 seconds
+- `5m` - 5 minutes
+- `2h` - 2 hours
+- `1h30m` - 1 hour 30 minutes
+- `2d5h` - 2 days 5 hours
+- `1y2M3d4h5m6s` - Combinations of years, months, days, hours, minutes, seconds
+
+![Progress bar in action]()
+*GIF placeholder: Progress bar filling up with animated red gradient*
+
+### Sub-Entries (Continue Feature)
+
+The **Play button** (▶️) creates sub-entries, allowing you to:
+- Pause and resume work on the same segment
+- Track multiple work sessions
+- See total time across all sub-entries
+
+**Example:**
+```
+Segment 1 (6s total)
+  ├─ Part 1: 2s
+  └─ Part 2: 4s
+```
+
+Sub-entries don't have control buttons - all controls are on the main segment.
+
+![Sub-entries example]()
+*GIF placeholder: Creating and managing sub-entries*
+
+### Stop All Timers Command
+
+To stop all active timers in the current document:
+
+1. Open command palette (`Ctrl/Cmd + P`)
+2. Search for **"Stop All Timers"**
+3. Press Enter
+
+You'll see a notification showing how many timers were stopped.
+
+![Stop all timers]()
+*GIF placeholder: Using the Stop All Timers command*
+
+## Settings
+
+Access plugin settings via: **Settings → Simple Time Tracker**
+
+### Available Settings
+
+- **Timestamp Display Format** - How timestamps are shown in the table
+- **CSV Delimiter** - Character used when copying as CSV
+- **Fine-Grained Durations** - Include days, months, and years in durations
+- **Timestamp Durations** - Show durations as timestamps (12:15:01) vs duration format (12h 15m 1s)
+- **Display Segments in Reverse Order** - Show newest segments at the bottom
+- **Show Total Today** - Display total time spent today
+
+## Tips & Tricks
+
+### 1. Multiple Trackers
+You can have multiple time trackers in the same note to track different tasks:
+
+```markdown
+## Project A
+```simple-time-tracker
+{"entries":[],"targetTime":"4h"}
+```
+
+## Project B
+```simple-time-tracker
+{"entries":[],"targetTime":"2h"}
+```
+```
+
+### 2. Daily Time Tracking
+Create a daily note template with a time tracker:
+
+```markdown
+# {{date}}
+
+## Time Tracking
+```simple-time-tracker
+{"entries":[],"targetTime":"8h"}
+```
+```
+
+### 3. Quick Time Entry
+- **Double-click** any segment name to quickly edit it
+- **Press Enter** while editing to save immediately
+- **Press Escape** to cancel editing without changes
+
+### 4. Visual Scanning
+When timers are running:
+- Look for **red borders** on the left of table rows
+- Watch for **pulsing "● RUNNING"** text
+- Check the **animated red progress bar**
+
+## Data Format
+
+Time trackers are stored as JSON inside code blocks:
 
 ```json
 {
-    "fundingUrl": {
-        "Buy Me a Coffee": "https://buymeacoffee.com",
-        "GitHub Sponsor": "https://github.com/sponsors",
-        "Patreon": "https://www.patreon.com/"
+  "entries": [
+    {
+      "name": "Segment 1",
+      "startTime": "2025-11-01T20:28:35.470Z",
+      "endTime": "2025-11-01T20:28:42.645Z",
+      "subEntries": undefined
     }
+  ],
+  "targetTime": "2h"
 }
 ```
 
-## API Documentation
+### Properties
 
-See https://github.com/obsidianmd/obsidian-api
+- `entries` - Array of time segments
+- `targetTime` - (Optional) Target time goal
+- `name` - Segment name
+- `startTime` - ISO 8601 timestamp
+- `endTime` - ISO 8601 timestamp (null if running)
+- `subEntries` - Array of sub-entries (for continued sessions)
+
+## Keyboard Shortcuts
+
+While editing:
+- `Enter` - Save changes
+- `Escape` - Cancel editing
+
+## Troubleshooting
+
+### Timer not updating
+- Ensure you're in **Reading View** or **Live Preview** mode
+- Try reloading the note
+
+### Progress bar not showing
+- Verify your tracker has a `targetTime` property
+- Check the format is correct (e.g., `"2h"`, `"30m"`)
+
+### Can't edit timestamp
+- Only non-running entries can have their end time edited
+- Running entries only allow name and start time editing
+
+### Trackers not working in tables
+- Code blocks cannot be embedded in Markdown tables
+- Use headings to organize multiple trackers instead
+
+## Support
+
+For issues, feature requests, or questions:
+- Check the plugin settings for customization options
+- Reload Obsidian if the plugin isn't responding
+- Disable and re-enable the plugin to reset
+
+## Credits
+
+Original plugin concept and base code from the Simple Time Tracker plugin.
+Enhanced with progress tracking, visual indicators, and improved UX.
+
+## License
+
+MIT License - See LICENSE file for details
+
+---
+
+**Version:** 1.0.0  
+**Author:** Simple Time Tracker Contributors  
+**Last Updated:** November 2025
+
