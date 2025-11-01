@@ -26,34 +26,32 @@ It was inspired on https://github.com/Ellpeck/ObsidianSimpleTimeTracker
 3. Enter a target time (optional) - e.g., `2h`, `30m`, `1h30m`
 4. Press Enter
 
-![Insert Time Tracker]()
-*GIF placeholder: Showing the Insert Time Tracker command and modal*
+![Insert Time Tracker](assets/Screencast_20251101_170047_small.gif)
+
 
 An empty tracker will be inserted in your note:
 
 ```markdown
-```simple-time-tracker
-{"entries":[],"targetTime":"2h"}
+>   ```simple-time-tracker
+>   {"entries":[],"targetTime":"2h"}
+>   ```
 ```
-```
+
+
 
 ### Starting Your First Timer
 
 When you have an empty tracker, click the **Play button** (▶️) to start your first segment.
 
-![Starting a timer]()
-*GIF placeholder: Clicking the play button to start the first segment*
 
 ### Tracking Time
 
 Once a timer is running, you'll see:
 - 🔴 **Red background** on the active row
 - 🔴 **Bold red duration** counting up in real-time
-- 🔴 **"● RUNNING" indicator** next to the segment name
+- 🔴 **"RUNNING" indicator** next to the segment name
 - 🔴 **Animated progress bar** (if target time is set)
 
-![Running timer indicators]()
-*GIF placeholder: Showing all the red visual indicators on a running timer*
 
 ## Usage Guide
 
@@ -68,8 +66,7 @@ Each segment has control buttons on the right:
 | ✏️ **Edit** | Edit | Edit segment name, start time, and end time |
 | 🗑️ **Delete** | Remove | Delete this segment (with confirmation) |
 
-![Segment controls]()
-*GIF placeholder: Demonstrating each button action*
+
 
 ### Editing Segments
 
@@ -78,8 +75,7 @@ Each segment has control buttons on the right:
 3. Click the **checkmark** or press **Enter** to save
 4. Press **Escape** to cancel
 
-![Editing a segment]()
-*GIF placeholder: Editing a segment name and timestamps*
+
 
 ### Target Time & Progress Bar
 
@@ -97,8 +93,7 @@ When you set a `targetTime`, a progress bar appears inside the table showing:
 - `2d5h` - 2 days 5 hours
 - `1y2M3d4h5m6s` - Combinations of years, months, days, hours, minutes, seconds
 
-![Progress bar in action]()
-*GIF placeholder: Progress bar filling up with animated red gradient*
+
 
 ### Sub-Entries (Continue Feature)
 
@@ -116,8 +111,7 @@ Segment 1 (6s total)
 
 Sub-entries don't have control buttons - all controls are on the main segment.
 
-![Sub-entries example]()
-*GIF placeholder: Creating and managing sub-entries*
+
 
 ### Stop All Timers Command
 
@@ -129,8 +123,7 @@ To stop all active timers in the current document:
 
 You'll see a notification showing how many timers were stopped.
 
-![Stop all timers]()
-*GIF placeholder: Using the Stop All Timers command*
+
 
 ## Settings
 
@@ -152,14 +145,14 @@ You can have multiple time trackers in the same note to track different tasks:
 
 ```markdown
 ## Project A
-```simple-time-tracker
-{"entries":[],"targetTime":"4h"}
-```
+> ```simple-time-tracker
+> {"entries":[],"targetTime":"4h"}
+> ```
 
 ## Project B
-```simple-time-tracker
-{"entries":[],"targetTime":"2h"}
-```
+> ```simple-time-tracker
+> {"entries":[],"targetTime":"2h"}
+> ```
 ```
 
 ### 2. Daily Time Tracking
@@ -169,9 +162,9 @@ Create a daily note template with a time tracker:
 # {{date}}
 
 ## Time Tracking
-```simple-time-tracker
-{"entries":[],"targetTime":"8h"}
-```
+> ```simple-time-tracker
+> {"entries":[],"targetTime":"8h"}
+> ```
 ```
 
 ### 3. Quick Time Entry
@@ -196,7 +189,7 @@ Time trackers are stored as JSON inside code blocks:
       "name": "Segment 1",
       "startTime": "2025-11-01T20:28:35.470Z",
       "endTime": "2025-11-01T20:28:42.645Z",
-      "subEntries": undefined
+      "subEntries": null
     }
   ],
   "targetTime": "2h"
@@ -255,6 +248,6 @@ MIT License - See LICENSE file for details
 ---
 
 **Version:** 1.0.0  
-**Author:** Simple Time Tracker Contributors  
+**Author:** Time Tracker Plus  
 **Last Updated:** November 2025
 
