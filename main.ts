@@ -89,7 +89,7 @@ var TimeTrackerPlusSettingsTab = class extends import_obsidian.PluginSettingTab 
   }
   display() {
     this.containerEl.empty();
-    this.containerEl.createEl("h2", { text: "Super Simple Time Tracker Settings" });
+    this.containerEl.createEl("h2", { text: "Time Tracker Plus Settings" });
     new import_obsidian.Setting(this.containerEl).setName("Timestamp Display Format").setDesc(createFragment((f) => {
       f.createSpan({ text: "The way that timestamps in time tracker tables should be displayed. Uses " });
       f.createEl("a", { text: "moment.js", href: "https://momentjs.com/docs/#/parsing/string-format/" });
@@ -140,12 +140,12 @@ var TimeTrackerPlusSettingsTab = class extends import_obsidian.PluginSettingTab 
     this.containerEl.createEl("p", { text: "Need help using the plugin? Feel free to join the Discord server!" });
     this.containerEl.createEl("a", { href: "https://link.ellpeck.de/discordweb" }).createEl("img", {
       attr: { src: "https://ellpeck.de/res/discord-wide.png" },
-      cls: "simple-time-tracker-settings-image"
+      cls: "time-tracker-plus-settings-image"
     });
     this.containerEl.createEl("p", { text: "If you like this plugin and want to support its development, you can do so through my website by clicking this fancy image!" });
     this.containerEl.createEl("a", { href: "https://ellpeck.de/support" }).createEl("img", {
       attr: { src: "https://ellpeck.de/res/generalsupport-wide.png" },
-      cls: "simple-time-tracker-settings-image"
+      cls: "time-tracker-plus-settings-image"
     });
   }
 };
@@ -256,7 +256,7 @@ function loadAllTrackers(fileName) {
     let curr;
     for (let i = 0; i < content.length; i++) {
       let line = content[i];
-      if (line.trimEnd() == "```simple-time-tracker") {
+      if (line.trimEnd() == "```time-tracker-plus") {
         curr = { lineStart: i + 1, text: "" };
       } else if (curr) {
         if (line.trimEnd() == "```") {
@@ -274,24 +274,24 @@ function loadAllTrackers(fileName) {
   });
 }
 function displayTracker(tracker, element, getFile, getSectionInfo, settings, component) {
-  element.addClass("simple-time-tracker-container");
+  element.addClass("time-tracker-plus-container");
   let running = isRunning(tracker);
   let newSegmentNameBox = { getValue: () => "" };
   let durationCells = [];
   let progressBar, progressFill, progressText;
   if (tracker.entries.length > 0) {
-    let table = element.createEl("table", { cls: "simple-time-tracker-table" });
+    let table = element.createEl("table", { cls: "time-tracker-plus-table" });
     table.createEl("tr").append(createEl("th", { text: "Segment" }), createEl("th", { text: "Start time" }), createEl("th", { text: "End time" }), createEl("th", { text: "Duration" }), createEl("th"));
     if (tracker.targetTime) {
-      let progressRow = table.createEl("tr", { cls: "simple-time-tracker-progress-row" });
+      let progressRow = table.createEl("tr", { cls: "time-tracker-plus-progress-row" });
       let progressCell = progressRow.createEl("td", { attr: { colspan: "5" } });
-      let progressContainer = progressCell.createEl("div", { cls: "simple-time-tracker-progress-container-inline" });
-      progressBar = progressContainer.createEl("div", { cls: "simple-time-tracker-progress-bar" });
-      progressFill = progressBar.createEl("div", { cls: "simple-time-tracker-progress-fill" });
+      let progressContainer = progressCell.createEl("div", { cls: "time-tracker-plus-progress-container-inline" });
+      progressBar = progressContainer.createEl("div", { cls: "time-tracker-plus-progress-bar" });
+      progressFill = progressBar.createEl("div", { cls: "time-tracker-plus-progress-fill" });
       if (running) {
-        progressFill.addClass("simple-time-tracker-progress-running");
+        progressFill.addClass("time-tracker-plus-progress-running");
       }
-      progressText = progressContainer.createEl("div", { cls: "simple-time-tracker-progress-text" });
+      progressText = progressContainer.createEl("div", { cls: "time-tracker-plus-progress-text" });
     }
     for (let entry of orderedEntries(tracker.entries, settings))
       addEditableTableRow(tracker, entry, table, newSegmentNameBox, running, getFile, getSectionInfo, settings, 0, component, durationCells);
@@ -315,7 +315,7 @@ function displayTracker(tracker, element, getFile, getSectionInfo, settings, com
       startNewEntry(tracker, newSegmentNameBox.getValue());
       yield saveTracker(tracker, getFile(), getSectionInfo());
     }));
-    btn.buttonEl.addClass("simple-time-tracker-btn");
+    btn.buttonEl.addClass("time-tracker-plus-btn");
   }
 }
 function updateProgressBar(tracker, progressFill, progressText, settings) {
@@ -327,9 +327,9 @@ function updateProgressBar(tracker, progressFill, progressText, settings) {
     const runningText = isRunning(tracker) ? " ● RUNNING" : "";
     progressText.setText(`${formatDuration(totalDuration, settings)} / ${tracker.targetTime} (${percentage.toFixed(1)}%)${runningText}`);
     if (isRunning(tracker)) {
-      progressText.addClass("simple-time-tracker-progress-text-running");
+      progressText.addClass("time-tracker-plus-progress-text-running");
     } else {
-      progressText.removeClass("simple-time-tracker-progress-text-running");
+      progressText.removeClass("time-tracker-plus-progress-text-running");
     }
   }
 }
@@ -563,21 +563,21 @@ function addEditableTableRow(tracker, entry, table, newSegmentNameBox, trackerRu
   let entryRunning = hasRunningEntry(entry);
   let row = table.createEl("tr");
   if (entryRunning) {
-    row.addClass("simple-time-tracker-running");
+    row.addClass("time-tracker-plus-running");
   }
   let nameField = new EditableField(row, indent, entry.name);
   let startField = new EditableTimestampField(row, entry.startTime, settings);
   let endField = new EditableTimestampField(row, entry.endTime, settings);
   let durationCell = row.createEl("td", { text: formatDuration(getDuration(entry), settings) });
   if (entryRunning) {
-    durationCell.addClass("simple-time-tracker-duration-running");
-    let runningIndicator = nameField.cell.createSpan({ cls: "simple-time-tracker-running-indicator", text: " ● RUNNING" });
+    durationCell.addClass("time-tracker-plus-duration-running");
+    let runningIndicator = nameField.cell.createSpan({ cls: "time-tracker-plus-running-indicator", text: " ● RUNNING" });
   }
   if (durationCells) {
     durationCells.push({ entry, cell: durationCell });
   }
   renderNameAsMarkdown(nameField.label, getFile, component);
-  let expandButton = new import_obsidian3.ButtonComponent(nameField.label).setClass("clickable-icon").setClass("simple-time-tracker-expand-button").setIcon(`chevron-${entry.collapsed ? "left" : "down"}`).onClick(() => __async(this, null, function* () {
+  let expandButton = new import_obsidian3.ButtonComponent(nameField.label).setClass("clickable-icon").setClass("time-tracker-plus-expand-button").setIcon(`chevron-${entry.collapsed ? "left" : "down"}`).onClick(() => __async(this, null, function* () {
     if (entry.collapsed) {
       entry.collapsed = void 0;
     } else {
@@ -588,7 +588,7 @@ function addEditableTableRow(tracker, entry, table, newSegmentNameBox, trackerRu
   if (!entry.subEntries)
     expandButton.buttonEl.style.visibility = "hidden";
   let entryButtons = row.createEl("td");
-  entryButtons.addClass("simple-time-tracker-table-buttons");
+  entryButtons.addClass("time-tracker-plus-table-buttons");
   if (indent === 0) {
     new import_obsidian3.ButtonComponent(entryButtons).setClass("clickable-icon").setIcon(`lucide-play`).setTooltip("Continue").setDisabled(trackerRunning).onClick(() => __async(this, null, function* () {
       startSubEntry(entry, newSegmentNameBox.getValue());
@@ -682,7 +682,7 @@ var EditableField = class {
     this.label = this.cell.createEl("span", { text: value });
     this.label.style.marginLeft = `${indent}em`;
     this.box = new import_obsidian3.TextComponent(this.cell).setValue(value);
-    this.box.inputEl.addClass("simple-time-tracker-input");
+    this.box.inputEl.addClass("time-tracker-plus-input");
     this.box.inputEl.hide();
     this.box.inputEl.addEventListener("keydown", (e) => {
       var _a, _b;
@@ -765,7 +765,7 @@ var TimeTrackerPlusPlugin = class extends import_obsidian4.Plugin {
     return __async(this, null, function* () {
       yield this.loadSettings();
       this.addSettingTab(new TimeTrackerPlusSettingsTab(this.app, this));
-      this.registerMarkdownCodeBlockProcessor("simple-time-tracker", (s, e, i) => {
+      this.registerMarkdownCodeBlockProcessor("time-tracker-plus", (s, e, i) => {
         e.empty();
         let component = new import_obsidian4.MarkdownRenderChild(e);
         let tracker = loadTracker(s);
@@ -788,7 +788,7 @@ var TimeTrackerPlusPlugin = class extends import_obsidian4.Plugin {
             if (targetTime && targetTime.trim()) {
               tracker.targetTime = targetTime.trim();
             }
-            e.replaceSelection(`\`\`\`simple-time-tracker
+            e.replaceSelection(`\`\`\`time-tracker-plus
 ${JSON.stringify(tracker)}
 \`\`\`
 `);

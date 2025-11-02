@@ -7,7 +7,7 @@ It was inspired on https://github.com/Ellpeck/ObsidianSimpleTimeTracker
 
 ## Features
 
-- ⏱️ **Simple time tracking** - Start and stop timers with one click
+- ⏱️ **Time tracking** - Start and stop timers with one click
 - 🎯 **Target time goals** - Set time goals and track progress with a visual progress bar
 - 📊 **Real-time updates** - See durations update live as timers run
 - 🔴 **Visual indicators** - Clear red indicators show when timers are active
@@ -32,7 +32,7 @@ It was inspired on https://github.com/Ellpeck/ObsidianSimpleTimeTracker
 An empty tracker will be inserted in your note:
 
 ```markdown
->   ```simple-time-tracker
+>   ```time-tracker-plus
 >   {"entries":[],"targetTime":"2h"}
 >   ```
 ```
@@ -145,12 +145,12 @@ You can have multiple time trackers in the same note to track different tasks:
 
 ```markdown
 ## Project A
-> ```simple-time-tracker
+> ```time-tracker-plus
 > {"entries":[],"targetTime":"4h"}
 > ```
 
 ## Project B
-> ```simple-time-tracker
+> ```time-tracker-plus
 > {"entries":[],"targetTime":"2h"}
 > ```
 ```
@@ -162,7 +162,7 @@ Create a daily note template with a time tracker:
 # {{date}}
 
 ## Time Tracking
-> ```simple-time-tracker
+> ```time-tracker-plus
 > {"entries":[],"targetTime":"8h"}
 > ```
 ```

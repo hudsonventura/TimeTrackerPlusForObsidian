@@ -1,112 +1,112 @@
-.simple-time-tracker-container {
+.time-tracker-plus-container {
     overflow-x: scroll;
 }
 
-.simple-time-tracker-settings-image {
+.time-tracker-plus-settings-image {
     width: 100%;
     height: auto;
 }
 
-.simple-time-tracker-btn,
-.simple-time-tracker-txt {
+.time-tracker-plus-btn,
+.time-tracker-plus-txt {
     display: block;
     margin-left: auto;
     margin-right: auto;
 }
 
-.simple-time-tracker-txt {
+.time-tracker-plus-txt {
     text-align: center;
 }
 
-.simple-time-tracker-btn {
+.time-tracker-plus-btn {
     margin-top: 10px;
     margin-bottom: 10px;
 }
 
-.simple-time-tracker-btn svg {
+.time-tracker-plus-btn svg {
     width: 32px;
     height: 32px;
 }
 
-.simple-time-tracker-bottom button {
+.time-tracker-plus-bottom button {
     margin: 10px 5px 10px 5px;
 }
 
-.simple-time-tracker-timers,
-.simple-time-tracker-bottom {
+.time-tracker-plus-timers,
+.time-tracker-plus-bottom {
     display: flex;
     justify-content: center;
     text-align: center;
 }
 
-.simple-time-tracker-timers span {
+.time-tracker-plus-timers span {
     display: block;
 }
 
-.simple-time-tracker-timer {
+.time-tracker-plus-timer {
     margin: 20px;
 }
 
-.simple-time-tracker-timer-time {
+.time-tracker-plus-timer-time {
     font-size: xx-large;
     font-weight: bolder;
 }
 
-.simple-time-tracker-table {
+.time-tracker-plus-table {
     width: 100%;
     margin-top: 5px;
 }
 
-.simple-time-tracker-table td,
-.simple-time-tracker-table th {
+.time-tracker-plus-table td,
+.time-tracker-plus-table th {
     vertical-align: middle;
     border: none;
 }
 
-.simple-time-tracker-table .clickable-icon {
+.time-tracker-plus-table .clickable-icon {
     display: inline-block;
     vertical-align: middle;
 }
 
-.simple-time-tracker-expand-button {
+.time-tracker-plus-expand-button {
     margin-inline-start: 0.5em;
 }
 
-.simple-time-tracker-input {
+.time-tracker-plus-input {
     max-width: 150px;
     min-width: 100px;
 }
 
-.simple-time-tracker-table-buttons {
+.time-tracker-plus-table-buttons {
     text-align: right !important;
 }
 
-.simple-time-tracker-table tr:hover {
+.time-tracker-plus-table tr:hover {
     background-color: var(--background-modifier-hover);
 }
 
-.simple-time-tracker-progress-container {
+.time-tracker-plus-progress-container {
     margin: 10px 0;
 }
 
-.simple-time-tracker-progress-container-inline {
+.time-tracker-plus-progress-container-inline {
     padding: 8px 10px;
 }
 
-.simple-time-tracker-progress-row {
+.time-tracker-plus-progress-row {
     background-color: var(--background-secondary);
 }
 
-.simple-time-tracker-progress-row:hover {
+.time-tracker-plus-progress-row:hover {
     background-color: var(--background-secondary) !important;
 }
 
-.simple-time-tracker-progress-row td {
+.time-tracker-plus-progress-row td {
     padding: 0 !important;
     border: none !important;
 }
 
-.simple-time-tracker-progress-bar {
+.time-tracker-plus-progress-bar {
     width: 100%;
     height: 20px;
     background-color: var(--background-modifier-border);
@@ -115,14 +115,14 @@
     margin-bottom: 5px;
 }
 
-.simple-time-tracker-progress-fill {
+.time-tracker-plus-progress-fill {
     height: 100%;
     background-color: var(--interactive-accent);
     transition: width 0.3s ease;
     width: 0%;
 }
 
-.simple-time-tracker-progress-running {
+.time-tracker-plus-progress-running {
     background: linear-gradient(90deg, #ff0000, #ff6666, #ff0000);
     background-size: 200% 100%;
     animation: progressPulse 3s ease-in-out infinite;
@@ -137,32 +137,32 @@
     }
 }
 
-.simple-time-tracker-progress-text {
+.time-tracker-plus-progress-text {
     text-align: center;
     font-size: 0.9em;
     color: var(--text-muted);
 }
 
-.simple-time-tracker-progress-text-running {
+.time-tracker-plus-progress-text-running {
     color: #ff0000;
     font-weight: bold;
 }
 
-.simple-time-tracker-running {
+.time-tracker-plus-running {
     background-color: rgba(255, 0, 0, 0.05) !important;
     border-left: 3px solid #ff0000;
 }
 
-.simple-time-tracker-running:hover {
+.time-tracker-plus-running:hover {
     background-color: rgba(255, 0, 0, 0.1) !important;
 }
 
-.simple-time-tracker-duration-running {
+.time-tracker-plus-duration-running {
     color: #ff0000;
     font-weight: bold;
 }
 
-.simple-time-tracker-running-indicator {
+.time-tracker-plus-running-indicator {
     color: #ff0000;
     font-weight: bold;
     font-size: 0.85em;
