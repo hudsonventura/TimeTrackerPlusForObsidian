@@ -323,7 +323,7 @@ function updateProgressBar(tracker, progressFill, progressText, settings) {
   const targetDuration = parseTargetTime(tracker.targetTime);
   if (targetDuration > 0) {
     const percentage = Math.min(100, totalDuration / targetDuration * 100);
-    progressFill.style.width = `${percentage}%`;
+    progressFill.setCssStyles({ "--time-tracker-plus-progress-width": `${percentage}%` });
     const runningText = isRunning(tracker) ? " ● RUNNING" : "";
     progressText.setText(`${formatDuration(totalDuration, settings)} / ${tracker.targetTime} (${percentage.toFixed(1)}%)${runningText}`);
     if (isRunning(tracker)) {
@@ -586,7 +586,7 @@ function addEditableTableRow(tracker, entry, table, newSegmentNameBox, trackerRu
     yield saveTracker(tracker, getFile(), getSectionInfo());
   }));
   if (!entry.subEntries)
-    expandButton.buttonEl.style.visibility = "hidden";
+    expandButton.buttonEl.addClass("time-tracker-plus-expand-button-hidden");
   let entryButtons = row.createEl("td");
   entryButtons.addClass("time-tracker-plus-table-buttons");
   if (indent === 0) {
@@ -619,7 +619,7 @@ function addEditableTableRow(tracker, entry, table, newSegmentNameBox, trackerRu
   function saveChanges() {
     return __async(this, null, function* () {
       entry.name = nameField.endEdit();
-      expandButton.buttonEl.style.display = null;
+      expandButton.buttonEl.removeClass("time-tracker-plus-expand-button-editing");
       startField.endEdit();
       entry.startTime = startField.getTimestamp();
       if (!entryRunning) {
@@ -633,7 +633,7 @@ function addEditableTableRow(tracker, entry, table, newSegmentNameBox, trackerRu
   }
   function startEditing() {
     nameField.beginEdit(entry.name, true);
-    expandButton.buttonEl.style.display = "none";
+    expandButton.buttonEl.addClass("time-tracker-plus-expand-button-editing");
     if (!entry.subEntries) {
       startField.beginEdit(entry.startTime);
       if (!entryRunning)
@@ -649,7 +649,7 @@ function addEditableTableRow(tracker, entry, table, newSegmentNameBox, trackerRu
       if (!entryRunning) {
         endField.endEdit();
       }
-      expandButton.buttonEl.style.display = null;
+      expandButton.buttonEl.removeClass("time-tracker-plus-expand-button-editing");
       editButton.setIcon("lucide-pencil");
     };
   }
@@ -673,14 +673,23 @@ function showConfirm(message) {
   });
 }
 function renderNameAsMarkdown(label, getFile, component) {
-  void import_obsidian3.MarkdownRenderer.renderMarkdown(label.innerHTML, label, getFile(), component);
-  label.innerHTML = label.querySelector("p").innerHTML;
+  const text = label.textContent || "";
+  label.empty();
+  void import_obsidian3.MarkdownRenderer.render(app, text, label, getFile(), component).then(() => {
+    const paragraph = label.querySelector("p");
+    if (paragraph) {
+      while (paragraph.firstChild) {
+        label.appendChild(paragraph.firstChild);
+      }
+      paragraph.remove();
+    }
+  });
 }
 const EditableField = class {
   constructor(row, indent, value) {
     this.cell = row.createEl("td");
-    this.label = this.cell.createEl("span", { text: value });
-    this.label.style.marginLeft = `${indent}em`;
+    this.label = this.cell.createEl("span", { text: value, cls: "time-tracker-plus-field-indent" });
+    this.label.setCssStyles({ "--time-tracker-plus-indent": `${indent}em` });
     this.box = new import_obsidian3.TextComponent(this.cell).setValue(value);
     this.box.inputEl.addClass("time-tracker-plus-input");
     this.box.inputEl.hide();

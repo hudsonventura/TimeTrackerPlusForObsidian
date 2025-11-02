@@ -72,6 +72,18 @@
     margin-inline-start: 0.5em;
 }
 
+.time-tracker-plus-expand-button-hidden {
+    visibility: hidden;
+}
+
+.time-tracker-plus-expand-button-editing {
+    display: none;
+}
+
+.time-tracker-plus-field-indent {
+    margin-left: var(--time-tracker-plus-indent, 0);
+}
+
 .time-tracker-plus-input {
     max-width: 150px;
     min-width: 100px;
@@ -119,7 +131,7 @@
     height: 100%;
     background-color: var(--interactive-accent);
     transition: width 0.3s ease;
-    width: 0%;
+    width: var(--time-tracker-plus-progress-width, 0%);
 }
 
 /* Progress bar color states based on percentage */
