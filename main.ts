@@ -77,7 +77,7 @@ const defaultSettings = {
   fineGrainedDurations: true,
   reverseSegmentOrder: false,
   timestampDurations: false,
-  showToday: false
+  autoStopTimes: ""
 };
 
 // src/settings-tab.ts
@@ -129,24 +129,24 @@ const TimeTrackerPlusSettingsTab = class extends import_obsidian.PluginSettingTa
         yield this.plugin.saveSettings();
       }));
     });
-    new import_obsidian.Setting(this.containerEl).setName("Show Total Today").setDesc("Whether the total time spent today should be displayed in the tracker table.").addToggle((t) => {
-      t.setValue(this.plugin.settings.showToday);
+    new import_obsidian.Setting(this.containerEl).setName("Auto-Stop Times").setDesc("Automatically stop all running timers at specific times each day. Enter times in HH:mm format separated by semicolons (e.g., 11:30;17:30). Leave empty to disable.").addText((t) => {
+      t.setPlaceholder("11:30;17:30");
+      t.setValue(String(this.plugin.settings.autoStopTimes));
       t.onChange((v) => __async(this, null, function* () {
-        this.plugin.settings.showToday = v;
+        this.plugin.settings.autoStopTimes = v;
         yield this.plugin.saveSettings();
       }));
     });
     this.containerEl.createEl("hr");
-    this.containerEl.createEl("p", { text: "Need help using the plugin? Feel free to join the Discord server!" });
-    this.containerEl.createEl("a", { href: "https://link.ellpeck.de/discordweb" }).createEl("img", {
-      attr: { src: "https://ellpeck.de/res/discord-wide.png" },
-      cls: "time-tracker-plus-settings-image"
+    this.containerEl.createEl("p", { text: "If you like this plugin and want to support its development, you can buy me a coffee!" });
+    const bmcContainer = this.containerEl.createDiv({ cls: "time-tracker-plus-bmc-container" });
+    const bmcButton = bmcContainer.createEl("a", {
+      href: "https://buymeacoffee.com/hudsonventura",
+      attr: { target: "_blank" },
+      cls: "time-tracker-plus-bmc-button"
     });
-    this.containerEl.createEl("p", { text: "If you like this plugin and want to support its development, you can do so through my website by clicking this fancy image!" });
-    this.containerEl.createEl("a", { href: "https://ellpeck.de/support" }).createEl("img", {
-      attr: { src: "https://ellpeck.de/res/generalsupport-wide.png" },
-      cls: "time-tracker-plus-settings-image"
-    });
+    bmcButton.createSpan({ text: "\u2615", cls: "time-tracker-plus-bmc-icon" });
+    bmcButton.createSpan({ text: " Buy me a coffee", cls: "time-tracker-plus-bmc-text" });
   }
 };
 
@@ -753,6 +753,47 @@ const EditableTimestampField = class extends EditableField {
 };
 
 // src/main.ts
+function shouldAutoStopNow(autoStopTimes) {
+  if (!autoStopTimes || autoStopTimes.trim() === "") {
+    return false;
+  }
+  const now = (0, import_obsidian3.moment)();
+  const currentTime = now.format("HH:mm");
+  const times = autoStopTimes.split(";").map((t) => t.trim()).filter((t) => t);
+  return times.includes(currentTime);
+}
+function stopAllRunnersInFile(fileContent, fileName, app2) {
+  return __async(this, null, function* () {
+    const codeBlockRegex = /```time-tracker-plus\n([\s\S]*?)\n```/g;
+    let match;
+    let modified = false;
+    let newContent = fileContent;
+    while ((match = codeBlockRegex.exec(fileContent)) !== null) {
+      try {
+        const tracker = JSON.parse(match[1]);
+        if (isRunning(tracker)) {
+          const runningEntry = getRunningEntry(tracker.entries);
+          if (runningEntry) {
+            runningEntry.endTime = (0, import_obsidian3.moment)().toISOString();
+            const updatedTracker = JSON.stringify(tracker);
+            newContent = newContent.replace(match[0], `\`\`\`time-tracker-plus
+${updatedTracker}
+\`\`\``);
+            modified = true;
+          }
+        }
+      } catch (e) {
+      }
+    }
+    if (modified) {
+      const file = app2.vault.getAbstractFileByPath(fileName);
+      if (file instanceof import_obsidian4.TFile) {
+        yield app2.vault.modify(file, newContent);
+      }
+    }
+    return modified;
+  });
+}
 const TimeTrackerPlusPlugin = class extends import_obsidian4.Plugin {
   constructor() {
     super(...arguments);
@@ -805,6 +846,34 @@ ${JSON.stringify(tracker)}
           modal.open();
         }
       });
+      let lastCheckedMinute = -1;
+      const autoStopInterval = window.setInterval(() => __async(this, null, function* () {
+        const now = (0, import_obsidian3.moment)();
+        const currentMinute = now.minutes();
+        if (currentMinute === lastCheckedMinute) {
+          return;
+        }
+        lastCheckedMinute = currentMinute;
+        if (shouldAutoStopNow(this.settings.autoStopTimes)) {
+          let stoppedCount = 0;
+          const files = this.app.vault.getMarkdownFiles();
+          for (const file of files) {
+            try {
+              const content = yield this.app.vault.read(file);
+              const wasStopped = yield stopAllRunnersInFile(content, file.path, this.app);
+              if (wasStopped) {
+                stoppedCount++;
+              }
+            } catch (e) {
+              console.error("Error auto-stopping timers in file:", file.path, e);
+            }
+          }
+          if (stoppedCount > 0) {
+            new import_obsidian4.Notice(`Auto-stopped timers in ${stoppedCount} file(s) at ${now.format("HH:mm")}`);
+          }
+        }
+      }), 1e3);
+      this.registerInterval(autoStopInterval);
     });
   }
   loadSettings() {

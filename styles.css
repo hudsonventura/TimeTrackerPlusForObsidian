@@ -244,3 +244,50 @@
         opacity: 0.5;
     }
 }
+
+/* Buy Me a Coffee Button */
+.time-tracker-plus-bmc-container {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.time-tracker-plus-bmc-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 24px;
+    background-color: #FFDD00;
+    color: #000000;
+    border-radius: 8px;
+    text-decoration: none;
+    font-family: 'Cookie', cursive, var(--font-text);
+    font-size: 18px;
+    font-weight: 600;
+    border: 2px solid #000000;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.time-tracker-plus-bmc-button:hover {
+    background-color: #FFED4E;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    text-decoration: none;
+    color: #000000;
+}
+
+.time-tracker-plus-bmc-button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.time-tracker-plus-bmc-icon {
+    font-size: 24px;
+    margin-right: 4px;
+}
+
+.time-tracker-plus-bmc-text {
+    font-weight: 600;
+}
