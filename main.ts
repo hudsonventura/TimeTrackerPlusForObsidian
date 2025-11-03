@@ -279,37 +279,21 @@ function displayTracker(tracker, element, getFile, getSectionInfo, settings, com
   let newSegmentNameBox = { getValue: () => "" };
   let durationCells = [];
   let progressBar, progressFill, progressText;
+  if (tracker.targetTime) {
+    let progressContainer = element.createEl("div", { cls: "time-tracker-plus-progress-container" });
+    progressBar = progressContainer.createEl("div", { cls: "time-tracker-plus-progress-bar" });
+    progressFill = progressBar.createEl("div", { cls: "time-tracker-plus-progress-fill" });
+    if (running) {
+      progressFill.addClass("time-tracker-plus-progress-running");
+    }
+    progressText = progressContainer.createEl("div", { cls: "time-tracker-plus-progress-text" });
+    updateProgressBar(tracker, progressFill, progressText, settings);
+  }
   if (tracker.entries.length > 0) {
     let table = element.createEl("table", { cls: "time-tracker-plus-table" });
     table.createEl("tr").append(createEl("th", { text: "Segment" }), createEl("th", { text: "Start time" }), createEl("th", { text: "End time" }), createEl("th", { text: "Duration" }), createEl("th"));
-    if (tracker.targetTime) {
-      let progressRow = table.createEl("tr", { cls: "time-tracker-plus-progress-row" });
-      let progressCell = progressRow.createEl("td", { attr: { colspan: "5" } });
-      let progressContainer = progressCell.createEl("div", { cls: "time-tracker-plus-progress-container-inline" });
-      progressBar = progressContainer.createEl("div", { cls: "time-tracker-plus-progress-bar" });
-      progressFill = progressBar.createEl("div", { cls: "time-tracker-plus-progress-fill" });
-      if (running) {
-        progressFill.addClass("time-tracker-plus-progress-running");
-      }
-      progressText = progressContainer.createEl("div", { cls: "time-tracker-plus-progress-text" });
-    }
     for (let entry of orderedEntries(tracker.entries, settings))
       addEditableTableRow(tracker, entry, table, newSegmentNameBox, running, getFile, getSectionInfo, settings, 0, component, durationCells, app2);
-    let intervalId = window.setInterval(() => {
-      if (!element.isConnected) {
-        window.clearInterval(intervalId);
-        return;
-      }
-      for (let { entry, cell } of durationCells) {
-        cell.setText(formatDuration(getDuration(entry), settings));
-      }
-      if (tracker.targetTime && progressFill && progressText) {
-        updateProgressBar(tracker, progressFill, progressText, settings);
-      }
-    }, 1e3);
-    if (tracker.targetTime && progressFill && progressText) {
-      updateProgressBar(tracker, progressFill, progressText, settings);
-    }
   } else {
     let btn = new import_obsidian3.ButtonComponent(element).setClass("clickable-icon").setIcon("lucide-play-circle").setTooltip("Start").onClick(() => __async(this, null, function* () {
       yield stopAllOtherRunningTimers(app2, getFile());
@@ -318,13 +302,44 @@ function displayTracker(tracker, element, getFile, getSectionInfo, settings, com
     }));
     btn.buttonEl.addClass("time-tracker-plus-btn");
   }
+  let intervalId = window.setInterval(() => {
+    if (!element.isConnected) {
+      window.clearInterval(intervalId);
+      return;
+    }
+    for (let { entry, cell } of durationCells) {
+      cell.setText(formatDuration(getDuration(entry), settings));
+    }
+    if (tracker.targetTime && progressFill && progressText) {
+      updateProgressBar(tracker, progressFill, progressText, settings);
+    }
+  }, 1e3);
 }
 function updateProgressBar(tracker, progressFill, progressText, settings) {
   const totalDuration = getTotalDuration(tracker.entries);
   const targetDuration = parseTargetTime(tracker.targetTime);
   if (targetDuration > 0) {
-    const percentage = Math.min(100, totalDuration / targetDuration * 100);
-    progressFill.setCssStyles({ "--time-tracker-plus-progress-width": `${percentage}%` });
+    const percentage = totalDuration / targetDuration * 100;
+    const displayPercentage = Math.min(100, percentage);
+    progressFill.setCssStyles({ width: `${displayPercentage}%` });
+    progressFill.removeClass("time-tracker-plus-progress-green");
+    progressFill.removeClass("time-tracker-plus-progress-yellow");
+    progressFill.removeClass("time-tracker-plus-progress-orange");
+    progressFill.removeClass("time-tracker-plus-progress-red");
+    progressText.removeClass("time-tracker-plus-progress-text-green");
+    progressText.removeClass("time-tracker-plus-progress-text-yellow");
+    progressText.removeClass("time-tracker-plus-progress-text-orange");
+    progressText.removeClass("time-tracker-plus-progress-text-red");
+    let colorClass = "green";
+    if (percentage >= 100) {
+      colorClass = "red";
+    } else if (percentage >= 85) {
+      colorClass = "orange";
+    } else if (percentage >= 70) {
+      colorClass = "yellow";
+    }
+    progressFill.addClass(`time-tracker-plus-progress-${colorClass}`);
+    progressText.addClass(`time-tracker-plus-progress-text-${colorClass}`);
     const runningText = isRunning(tracker) ? " ● RUNNING" : "";
     progressText.setText(`${formatDuration(totalDuration, settings)} / ${tracker.targetTime} (${percentage.toFixed(1)}%)${runningText}`);
     if (isRunning(tracker)) {

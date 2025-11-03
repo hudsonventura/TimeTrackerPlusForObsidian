@@ -136,41 +136,41 @@
 
 /* Progress bar color states based on percentage */
 .time-tracker-plus-progress-green {
-    background-color: #22c55e;
+    background-color: #22c55e !important;
 }
 
 .time-tracker-plus-progress-green.time-tracker-plus-progress-running {
-    background: linear-gradient(90deg, #16a34a, #4ade80, #16a34a);
+    background: linear-gradient(90deg, #16a34a, #4ade80, #16a34a) !important;
     background-size: 200% 100%;
     animation: progressPulse 3s ease-in-out infinite;
 }
 
 .time-tracker-plus-progress-yellow {
-    background-color: #eab308;
+    background-color: #eab308 !important;
 }
 
 .time-tracker-plus-progress-yellow.time-tracker-plus-progress-running {
-    background: linear-gradient(90deg, #ca8a04, #fde047, #ca8a04);
+    background: linear-gradient(90deg, #ca8a04, #fde047, #ca8a04) !important;
     background-size: 200% 100%;
     animation: progressPulse 3s ease-in-out infinite;
 }
 
 .time-tracker-plus-progress-orange {
-    background-color: #f97316;
+    background-color: #f97316 !important;
 }
 
 .time-tracker-plus-progress-orange.time-tracker-plus-progress-running {
-    background: linear-gradient(90deg, #ea580c, #fb923c, #ea580c);
+    background: linear-gradient(90deg, #ea580c, #fb923c, #ea580c) !important;
     background-size: 200% 100%;
     animation: progressPulse 3s ease-in-out infinite;
 }
 
 .time-tracker-plus-progress-red {
-    background-color: #ef4444;
+    background-color: #ef4444 !important;
 }
 
 .time-tracker-plus-progress-red.time-tracker-plus-progress-running {
-    background: linear-gradient(90deg, #dc2626, #f87171, #dc2626);
+    background: linear-gradient(90deg, #dc2626, #f87171, #dc2626) !important;
     background-size: 200% 100%;
     animation: progressPulse 3s ease-in-out infinite;
 }
