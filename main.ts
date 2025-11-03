@@ -846,6 +846,30 @@ ${JSON.stringify(tracker)}
           modal.open();
         }
       });
+      this.addCommand({
+        id: `stop-all-timers`,
+        name: `Stop All Running Timers`,
+        callback: () => __async(this, null, function* () {
+          let stoppedCount = 0;
+          const files = this.app.vault.getMarkdownFiles();
+          for (const file of files) {
+            try {
+              const content = yield this.app.vault.read(file);
+              const wasStopped = yield stopAllRunnersInFile(content, file.path, this.app);
+              if (wasStopped) {
+                stoppedCount++;
+              }
+            } catch (e) {
+              console.error("Error stopping timers in file:", file.path, e);
+            }
+          }
+          if (stoppedCount > 0) {
+            new import_obsidian4.Notice(`Stopped running timers in ${stoppedCount} file(s)`);
+          } else {
+            new import_obsidian4.Notice("No running timers found");
+          }
+        })
+      });
       let lastCheckedMinute = -1;
       const autoStopInterval = window.setInterval(() => __async(this, null, function* () {
         const now = (0, import_obsidian3.moment)();
